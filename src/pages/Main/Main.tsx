@@ -15,11 +15,11 @@ export default function Main() {
           className="w-full"
         />
       </div>
-      <div className="flex flex-col w-full h-fit">
+      <div className="flex flex-col w-full h-fit" id="licences-section">
         <LicencesInfoContainer />
       </div>
 
-      <div className="flex flex-col w-full h-fit">
+      <div className="flex flex-col w-full h-fit" id="contact-section">
         <ContactForm />
         <div className="bg-black h-12 w-[34rem] mx-auto mt-auto rounded-t-3xl border-t-2 border-[#8A0303]"></div>
       </div>

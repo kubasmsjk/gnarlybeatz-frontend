@@ -1,26 +1,36 @@
-
 interface LicencesInfoProps {
-    leaseType: string,
-    cost: string,
-    fileType: string,
-    isInstrumentalBeSold: boolean,
-    isVocalTag: boolean,
-    isCreatorRights: boolean
+  leaseType: string;
+  cost: string;
+  fileType: string;
+  isInstrumentalBeSold: boolean;
+  isVocalTag: boolean;
+  isCreatorRights: boolean;
 }
 
 export default function LicencesInfo(props: LicencesInfoProps) {
-    return (
-        <div className="px-4">
-            <p className="flex justify-center py-2 text-white text-3xl font-semibold">{props.leaseType}</p>
-        <ul className="bg-[#8A0303] bg-opacity-20 p-4">
-            <li className="flex justify-center py-3 text-white text-3xl">{props.cost}</li>
-            <li className="flex justify-center text-white text-1xl">File type(s): {props.fileType}</li>
-            <li className="flex justify-center text-white text-1xl">Instrumental: will {props.isInstrumentalBeSold ? "still" : "will no longer"} be sold</li>
-            <li className="flex justify-center text-white text-1xl">Vocal Tag(s): {props.isVocalTag ? "Yes" : "No"}</li>
-            <li className="flex justify-center text-white text-1xl">Credit: ‘Prod. xGnarly’</li>
-            <li className="flex  text-white text-1xl">The {props.isCreatorRights ? "creator" : "artist"} maintains full instrumental rights</li>
-        </ul>
-        </div>
-    );
-  }
-  
+  return (
+    <div className="p-4">
+      <p className="flex justify-center pb-3 text-xl sm:text-2xl font-semibold">
+        {props.leaseType}
+      </p>
+      <ul className="flex flex-col items-start justify-start  rounded-lg bg-[#8A0303] bg-opacity-20 w-80 sm:w-96 h-56 sm:h-72 p-2 sm:p-3">
+        <li className="self-center text-lg sm:text-2xl py-3 sm:py-5">
+          {props.cost}
+        </li>
+        <li className="text-base sm:text-xl">File type(s): {props.fileType}</li>
+        <li className="text-base sm:text-xl">
+          Instrumental: will{" "}
+          {props.isInstrumentalBeSold ? "still" : "will no longer"} be sold
+        </li>
+        <li className="text-base sm:text-xl">
+          Vocal Tag(s): {props.isVocalTag ? "Yes" : "No"}
+        </li>
+        <li className="text-base sm:text-xl">Credit: ‘Prod. xGnarly’</li>
+        <li className="text-sm sm:text-base">
+          The {props.isCreatorRights ? "creator" : "artist"} maintains full
+          instrumental rights
+        </li>
+      </ul>
+    </div>
+  );
+}

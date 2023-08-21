@@ -2,11 +2,11 @@ import LicencesInfo from "../LicencesInfo";
 
 export default function LicencesInfoContainer() {
   return (
-    <>
-      <h1 className="flex justify-center py-10 text-red-700 text-4xl">
+    <div className="container max-w-full" id="licences-section">
+      <h1 className="flex justify-center py-4 sm:py-9 text-red-700 text-2xl sm:text-4xl">
         Licences
       </h1>
-      <div className="flex flex-row justify-center items-center text-white">
+      <div className="container max-w-full flex justify-center items-center flex-col sm:flex-col md:flex-col lg:flex-row">
         <LicencesInfo
           leaseType="Standard Lease"
           cost="$10.00"
@@ -34,6 +34,6 @@ export default function LicencesInfoContainer() {
           isCreatorRights={false}
         />
       </div>
-    </>
+    </div>
   );
 }

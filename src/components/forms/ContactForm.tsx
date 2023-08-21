@@ -1,16 +1,16 @@
 export default function ContactForm() {
   return (
-    <>
-      <h1 className="flex justify-center py-10 text-red-700 text-4xl">
+    <div className="container max-w-full" id="contact-section">
+      <h1 className="flex justify-center py-4 sm:py-9 text-red-700 text-2xl sm:text-4xl">
         Contact me
       </h1>
-      <form className="flex flex-col justify-center items-center w-full px-6 py-6 ">
-        <div className="relative pb-6 w-1/3">
+      <form className="flex flex-col justify-center items-center">
+        <div className="relative pb-6 w-[20rem] sm:w-[27rem]">
           <input
             type="email"
             id="email"
             name="email"
-            className="block w-full py-2.5 px-0 text-base text-white bg-transparent rounded border border-[#8A0303] appearance-none dark:text-white dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer"
+            className="block w-full py-2.5 px-2 text-base text-white bg-transparent rounded border border-[#8A0303] appearance-none dark:text-white dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer"
             placeholder=" "
           />
           <label
@@ -21,11 +21,11 @@ export default function ContactForm() {
           </label>
         </div>
 
-        <div className="relative z-0 w-1/3 h-32">
+        <div className="relative z-0 w-[20rem] sm:w-[27rem]">
           <textarea
             id="message"
             name="message"
-            className="block w-full resize-none py-2.5 px-0 h-3/4 text-base text-white bg-transparent rounded border border-[#8A0303] appearance-none dark:text-white dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer"
+            className="block w-full resize-none py-2.5 px-2 h-[9rem] text-base text-white bg-transparent rounded border border-[#8A0303] appearance-none dark:text-white dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer"
             placeholder=" "
           />
           <label
@@ -36,7 +36,7 @@ export default function ContactForm() {
           </label>
         </div>
 
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center p-5">
           <button
             className="bg-transparent text-red-700 font-bold py-2 px-4 rounded-2xl border-2 border-[#8A0303]"
             type="button"
@@ -45,6 +45,6 @@ export default function ContactForm() {
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 }

@@ -9,7 +9,7 @@ const nextConfig = {
     
         return config;
       },
-
+      reactStrictMode: false,
 }
 
 module.exports = nextConfig

@@ -12,3 +12,7 @@ body {
   background-color: hsl(0, 0%, 3%);
   color: white;
 }
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}

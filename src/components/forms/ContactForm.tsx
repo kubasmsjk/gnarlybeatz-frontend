@@ -91,7 +91,7 @@ export default function ContactForm() {
         method="post"
         className="flex flex-col justify-center items-center"
       >
-        <div className="relative pb-6 w-[20rem] sm:w-[27rem]">
+        <div className="relative pb-2 sm:pb-4 w-[20rem] sm:w-[27rem]">
           <input
             type="email"
             id="email"
@@ -104,7 +104,7 @@ export default function ContactForm() {
           />
           <label
             htmlFor="email"
-            className="absolute top-0  text-base bg-[#080808] text-[#8A0303] dark:text-[#8A0303] duration-300 transform -translate-y-6 scale-75 origin-[0] peer-focus:left-0 peer-focus:text-red-700 peer-focus:dark:text-red-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            className="absolute top-0 text-base bg-[#080808] text-[#8A0303] dark:text-[#8A0303] duration-300 transform -translate-y-6 scale-75 origin-[0] peer-focus:left-0 peer-focus:text-red-700 peer-focus:dark:text-red-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
             Your email
           </label>
@@ -112,8 +112,10 @@ export default function ContactForm() {
         <SelectInput
           width="20rem"
           widthSm="27rem"
-          padding=""
-          paddingB="8"
+          padding="0"
+          paddingSm="0"
+          paddingB="6"
+          paddingBSm="8"
           name="Subject"
           selectValues={selectValues}
           handleFunction={handleChange}

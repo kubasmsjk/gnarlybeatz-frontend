@@ -23,8 +23,8 @@ export const Icons = {
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
+      width="40"
+      height="40"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -162,17 +162,34 @@ export const Icons = {
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      width="40"
-      height="40"
+      width="100%"
+      height="100%"
       viewBox="0 0 24 24"
       fill="none"
       stroke="#8A0303"
-      strokeWidth="1.5"
+      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      className="lucide lucide-play"
     >
-      <circle cx="12" cy="12" r="10" />
-      <polygon points="10 8 16 12 10 16 10 8" />
+      <polygon points="5 3 19 12 5 21 5 3" />
+    </svg>
+  ),
+  pause: (props: LucideProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="100%"
+      height="100%"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#8A0303"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-pause"
+    >
+      <rect width="4" height="16" x="6" y="4" />
+      <rect width="4" height="16" x="14" y="4" />
     </svg>
   ),
 };

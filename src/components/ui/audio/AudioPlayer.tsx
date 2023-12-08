@@ -14,7 +14,7 @@ type AudioPlayerProps = {
 export default function AudioPlayer(props: AudioPlayerProps) {
   return (
     <div className="container flex flex-row w-[20.6rem] sm:w-[60rem] bg-[#8A0303] bg-opacity-20 rounded-lg shadow-lg shadow-[#660000]">
-      <div className="relative w-1/6 sm:w-1/5">
+      <div className="relative w-[17%]">
         <Image
           src={props.imageUrl}
           alt={props.name + " image"}
@@ -24,7 +24,7 @@ export default function AudioPlayer(props: AudioPlayerProps) {
           decoding="async"
         />
       </div>
-      <div className="flex flex-col w-5/6 sm:w-4/5 h-full px-1 sm:px-2 pt-1 sm:pt-2">
+      <div className="flex flex-col w-[83%] h-full px-1 sm:px-2 pt-1 sm:pt-2">
         <div className="flex flex-row justify-between h-fit">
           <div className="text-xs sm:text-xl lg:text-2xl font-light pl-0.5 sm:pl-1">
             <p>{props.name}</p>

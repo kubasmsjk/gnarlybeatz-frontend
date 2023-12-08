@@ -75,9 +75,9 @@ export default function Wavesurfer(props: WavesurferProps) {
 
   return (
     <div className="container h-full flex flex-row pb-1 sm:pb-3 items-end">
-      <div className="flex justify-end items-center h-[30px] sm:h-[65px] md:h-[80px] lg:h-[100px]">
+      <div className="flex justify-end items-center h-[20px] sm:h-[40px] md:h-[65px] lg:h-[80px]">
         <button
-          className="h-[20px] sm:h-[40px] md:h-[44px] lg:h-[50px] pr-1"
+          className="h-[20px] sm:h-[30px] md:h-[44px] lg:h-[50px] pr-1"
           onClick={() => {
             wavesurfers.map((audio) => {
               if (audio === wavesurferAudioRef.current) {
@@ -92,7 +92,7 @@ export default function Wavesurfer(props: WavesurferProps) {
         </button>
       </div>
       <div
-        className="container h-[20px] sm:h-[60px] md:h-[80px] lg:h-[100px] relative cursor-pointer"
+        className="container h-[20px] sm:h-[40px] md:h-[65px] lg:h-[80px] relative cursor-pointer"
         ref={wavesurferRef}
       >
         <div

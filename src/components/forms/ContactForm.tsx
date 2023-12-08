@@ -13,12 +13,12 @@ const initialValues = {
   message: "",
 };
 
-const selectValues = [
+const selectValues = new Set([
   "Exclusive buy offer",
   "Technical issues",
   "Transaction issues",
   "Other",
-];
+]);
 
 const initialState = { values: initialValues };
 
@@ -83,7 +83,7 @@ export default function ContactForm() {
 
   return (
     <div className="container max-w-full" id="contact-section">
-      <h1 className="flex justify-center py-4 sm:py-9 text-red-700 text-2xl sm:text-4xl">
+      <h1 className="flex justify-center pb-7 pt-14 font-XXIIUltimateBlackMetal text-red-700 text-6xl sm:text-7xl">
         Contact me
       </h1>
       <form
@@ -98,7 +98,7 @@ export default function ContactForm() {
             name="email"
             value={values.email}
             required
-            className="block w-full py-2.5 px-2 text-base bg-transparent rounded border border-[#8A0303] bg-black dark:bg-black appearance-none dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer"
+            className="block w-full py-2.5 px-2 text-base bg-transparent rounded border border-[#8A0303] bg-black dark:bg-black appearance-none dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer shadow-lg shadow-[#660000]"
             placeholder=" "
             onChange={handleChange}
           />
@@ -128,7 +128,7 @@ export default function ContactForm() {
             required
             minLength={30}
             maxLength={300}
-            className="block w-full resize-none py-2.5 px-2 h-[9rem] text-base bg-transparent rounded border border-[#8A0303] appearance-none dark:text-white dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer"
+            className="block w-full resize-none py-2.5 px-2 h-[9rem] text-base bg-transparent rounded border border-[#8A0303] appearance-none dark:text-white dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer shadow-lg shadow-[#660000]"
             placeholder=" "
             onChange={handleChange}
           />

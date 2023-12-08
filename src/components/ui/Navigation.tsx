@@ -8,7 +8,7 @@ import { useParams, usePathname } from "next/navigation";
 const Menus = [
   { name: "Home", href: "/#main-logo" },
   { name: "Beats", href: "/beats" },
-  { name: "Licences", href: "/#licences-section" },
+  { name: "Licenses", href: "/#licenses-section" },
   { name: "Contact", href: "/#contact-section" },
   { name: <Icons.cart className="h-8 w-8 sm:h-6 sm:w-6" />, href: "x" },
   { name: "Sign in", href: "/sign-in" },

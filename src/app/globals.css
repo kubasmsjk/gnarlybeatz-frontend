@@ -2,7 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-*, *::before, *::after {
+@font-face {
+  font-family: 'XXII-Ultimate-Black-Metal';
+  src: url('../app/fonts/XXII\ Ultimate-Black-Metal.ttf');
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 

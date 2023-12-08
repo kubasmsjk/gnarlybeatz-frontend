@@ -8,6 +8,7 @@ import { b64toBlob } from "@/components/services/b64ToBlob";
 import { useEffect, useRef } from "react";
 import { useIntersection } from "@mantine/hooks";
 import AudioPlayer from "./AudioPlayer";
+import { useBeatsFormFilter } from "@/services/useBeatsFormFilter";
 
 type AudioFileData = {
   content: [Content];
@@ -30,12 +31,32 @@ type Content = {
 
 export default function BeatsList() {
   const lastAudioFileDataRef = useRef<HTMLDivElement>(null);
+  const {
+    filterValues,
+    addSelectBpmValues,
+    addSelectKeyValues,
+    addSelectMoodsValues,
+    addSelectGenresValues,
+  } = useBeatsFormFilter();
 
   const fetchAudioFilesData = async (page: number): Promise<AudioFileData> =>
     await axios
-      .get(backendConfig.url + `/api/audio/data?pageNo=${page}&pageSize=2`)
+      .get(
+        backendConfig.url +
+          `/api/audio/search?pageNo=${page}&pageSize=2&name=${
+            filterValues.get("search") || ""
+          }&genre=${filterValues.get("genre") || ""}&mood=${
+            filterValues.get("mood") || ""
+          }&bpm=${filterValues.get("bpm") || ""}&key=${
+            filterValues.get("key") || ""
+          }`
+      )
       .then((response) => {
         response.data.content.map((element: Content) => {
+          addSelectBpmValues(element.bpm);
+          addSelectKeyValues(element.key);
+          addSelectMoodsValues(element.mood);
+          addSelectGenresValues(element.genre);
           const audioBlob = b64toBlob(element.audioBlob, "audio/mp3");
           const audioUrl = URL.createObjectURL(audioBlob);
           const imageBlob = b64toBlob(element.imageBlob, "image/png");
@@ -63,6 +84,8 @@ export default function BeatsList() {
     initialPageParam: 0,
   });
 
+  const _audioData = audioData?.pages.flatMap((page) => page.content);
+
   const { ref, entry } = useIntersection({
     root: lastAudioFileDataRef.current,
     threshold: 1,
@@ -73,8 +96,6 @@ export default function BeatsList() {
       fetchNextPage();
     }
   }, [entry, fetchNextPage]);
-
-  const _audioData = audioData?.pages.flatMap((page) => page.content);
 
   return (
     <div className="container max-w-full flex flex-col justify-center items-center">
@@ -94,7 +115,7 @@ export default function BeatsList() {
         if (index === _audioData.length - 1)
           return (
             <div
-              className="container flex justify-center h-[4.1rem] sm:h-[8.5rem] md:h-[10rem] lg:h-[13rem] p-1.5 lg:p-2.5 animate-fade-up animate-delay-500"
+              className="container flex justify-center h-[4.1rem] sm:h-[7rem] md:h-[8.85rem] lg:h-[11rem] p-1.5 lg:p-2.5 animate-fade-up animate-delay-500"
               key={index}
               ref={ref}
             >
@@ -111,7 +132,7 @@ export default function BeatsList() {
           );
         return (
           <div
-            className="container flex justify-center h-[4.1rem] sm:h-[8.5rem] md:h-[10rem] lg:h-[13rem] p-1.5 lg:p-2.5 animate-fade-up animate-delay-500"
+            className="container flex justify-center h-[4.1rem] sm:h-[7rem] md:h-[8.85rem] lg:h-[11rem] p-1.5 lg:p-2.5 animate-fade-up animate-delay-500"
             key={index}
           >
             <AudioPlayer

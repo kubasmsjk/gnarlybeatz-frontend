@@ -1,36 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import SelectInput from "../reused/SelectInput";
 import { Icons } from "../ui/Icons";
-
-const initialValues = {
-  bpm: "-",
-  key: "-",
-  mood: "-",
-  genre: "-",
-};
-
-const selectBpmValues = ["-", "140", "167", "168"];
-const selectKeyValues = ["-", "Amin", "Bmin", "Cmin", "Gmin"];
-const selectMoodsValues = ["-", "Sad", "Lonely", "Happy", "Crazy"];
-const selectGenresValues = ["-", "Hip Hop", "Trap", "Old School", "Rock"];
-
-const initialState = { values: initialValues };
+import { useBeatsFormFilter } from "@/services/useBeatsFormFilter";
 
 export default function BeatsForm() {
-  const [state, setState] = useState(initialState);
-
-  const { values } = state;
+  const {
+    selectBpmValues,
+    selectKeyValues,
+    selectMoodsValues,
+    selectGenresValues,
+    addFilterValue,
+  } = useBeatsFormFilter();
+  const queryClient = useQueryClient();
 
   const handleChange = ({ target }: any) => {
-    setState((prev) => ({
-      ...prev,
-      values: {
-        ...prev.values,
-        [target.name]: target.value,
-      },
-    }));
+    if(target.name ==="search"){
+      setTimeout(() => {
+        addFilterValue(target.name, target.value);
+      }, 3000)
+    }else{
+      addFilterValue(target.name, target.value);
+    }
+    queryClient.removeQueries({ queryKey: ["audioData"] });
   };
 
   return (
@@ -38,9 +31,6 @@ export default function BeatsForm() {
       className="container max-w-full flex flex-col justify-center items-center pb-4 sm:pb-8"
       id="contact-section"
     >
-      <h1 className="flex justify-center py-4 sm:py-9 text-red-700 text-2xl sm:text-4xl">
-        Beats
-      </h1>
       <div className="container flex flex-col sm:flex-row justify-center items-center">
         <div className="flex flex-row justify-center items-center ">
           <SelectInput
@@ -101,9 +91,11 @@ export default function BeatsForm() {
             </div>
             <input
               type="search"
+              name="search"
               id="search-bar"
-              className="block w-full pl-10 py-[0.550rem] text-sm sm:text-base bg-transparent rounded border border-[#8A0303] bg-black dark:bg-black appearance-none dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer"
+              className="block w-full pl-10 py-[0.550rem] text-sm sm:text-base bg-transparent rounded border border-[#8A0303] bg-black dark:bg-black appearance-none dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer shadow-lg shadow-[#660000]"
               placeholder="Search..."
+              onChange={handleChange}
               required
             />
           </div>

@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
-
-import "./globals.css";
 import { siteConfig } from "@/config/site";
+import { Montserrat } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Logo from "@/components/ui/Logo";
 import Footer from "@/components/ui/Footer";
 import Navigation from "@/components/ui/Navigation";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Providers from "@/util/Providers";
+import "./globals.css";
 
 export const metadata: Metadata = {
   //metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -40,9 +39,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body
         className={`flex flex-col min-h-screen antialiased ${montserrat.className}`}
       >
-        <div id="main-logo ">
-          <Logo />
-        </div>
+        <Logo />
         <div className="container max-w-7xl h-full mx-auto">
           <Providers>{children}</Providers>
         </div>

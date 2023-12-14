@@ -4,8 +4,8 @@ import logo from "../../../public/assets/logo.webp";
 
 export default function Logo() {
   return (
-    <div className="container max-w-full flex">
-      <Link href="/">
+    <div className="container max-w-full flex" id="main-logo">
+      <Link href="/#main-logo">
         <Image
           src={logo}
           alt="xGnarly logo image"

@@ -1,5 +1,5 @@
-import BeatsForm from "@/components/forms/BeatsForm";
-import BeatsList from "@/components/ui/audio/BeatsList";
+import BeatsForm from "@/app/beats/forms/BeatsForm";
+import BeatsList from "@/app/beats/audio/BeatsList";
 
 export default function Beats() {
   return (

@@ -1,13 +1,12 @@
 "use client";
 
-import axios from "axios";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { Icons } from "../../components/ui/Icons";
+import { useContactEmailSender } from "../services/hooks/useContactEmailSender";
 import SelectInput from "../../components/reused/SelectInput";
-import { useMutation } from "@tanstack/react-query";
+import Input from "@/components/reused/Input";
 
-const initialValues = {
+const initialFormValues = {
   email: "",
   subject: "Exclusive buy offer",
   message: "",
@@ -20,14 +19,15 @@ const selectValues = new Set([
   "Other",
 ]);
 
-const initialState = { values: initialValues };
+const initialFormState = { values: initialFormValues };
 
 export default function ContactForm() {
-  const [state, setState] = useState(initialState);
-  const { values } = state;
+  const [formValues, setFormValues] = useState(initialFormState);
+  const { values } = formValues;
+  const { mutation } = useContactEmailSender();
 
   const handleChange = ({ target }: any) => {
-    setState((prev) => ({
+    setFormValues((prev) => ({
       ...prev,
       values: {
         ...prev.values,
@@ -36,48 +36,14 @@ export default function ContactForm() {
     }));
   };
 
-  const mutation = useMutation({
-    mutationKey: ["sendEmail"],
-    mutationFn: async () => {
-      await axios.post("http://localhost:8081/sendMail", {
-        sender: values.email,
-        msgBody: values.message,
-        subject: values.subject,
-      });
-      setState(initialState);
-      toast.success("Email sent", {
-        icon: <Icons.mailSucess className="h-8 w-8 sm:h-6 sm:w-6" />,
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-        style: { backgroundColor: "#1B7A43" },
-      });
-    },
-  });
-
-  if (mutation.isError) {
-    toast.error("Unable to send email (Server error)", {
-      icon: <Icons.mailWarning className="h-8 w-8 sm:h-6 sm:w-6" />,
-      position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "colored",
-      style: { backgroundColor: "#8A0303" },
-    });
-  }
-
   const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutation.mutate();
+    mutation.mutate({
+      email: values.email,
+      subject: values.subject,
+      message: values.message,
+    });
+    setFormValues({ values: initialFormValues });
   };
 
   return (
@@ -90,33 +56,30 @@ export default function ContactForm() {
         method="post"
         className="flex flex-col justify-center items-center"
       >
-        <div className="relative pb-2 sm:pb-4 w-[20rem] sm:w-[27rem]">
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={values.email}
-            required
-            className="block w-full py-2.5 px-2 text-base bg-transparent rounded border border-[#8A0303] bg-black dark:bg-black appearance-none dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer shadow-lg shadow-[#660000]"
-            placeholder=" "
-            onChange={handleChange}
-          />
-          <label
-            htmlFor="email"
-            className="absolute top-0 text-base bg-[#080808] text-[#8A0303] dark:text-[#8A0303] duration-300 transform -translate-y-6 scale-75 origin-[0] peer-focus:left-0 peer-focus:text-red-700 peer-focus:dark:text-red-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Your email
-          </label>
-        </div>
+        <Input
+          width="20rem"
+          widthSm="27rem"
+          paddingB="4"
+          paddingBSm="4"
+          type="email"
+          id="email"
+          name="email"
+          value={values.email}
+          text="Your email"
+          isDisabled={mutation.isPending}
+          handleFunction={handleChange}
+        />
         <SelectInput
           width="20rem"
           widthSm="27rem"
           padding="0"
           paddingSm="0"
-          paddingB="6"
+          paddingB="7"
           paddingBSm="8"
           name="Subject"
           selectValues={selectValues}
+          defaultValue={values.subject}
+          isDisabled={mutation.isPending}
           handleFunction={handleChange}
         />
         <div className="relative z-0 w-[20rem] sm:w-[27rem]">
@@ -129,6 +92,7 @@ export default function ContactForm() {
             maxLength={300}
             className="block w-full resize-none py-2.5 px-2 h-[9rem] text-base bg-transparent rounded border border-[#8A0303] appearance-none dark:text-white dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer shadow-lg shadow-[#660000]"
             placeholder=" "
+            disabled={mutation.isPending}
             onChange={handleChange}
           />
           <label

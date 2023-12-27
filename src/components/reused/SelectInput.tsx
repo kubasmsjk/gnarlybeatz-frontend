@@ -9,6 +9,8 @@ type SelectInputProps = {
   paddingBSm: string;
   name: string;
   selectValues: Set<string>;
+  defaultValue?: string;
+  isDisabled?: boolean;
   handleFunction: ChangeEventHandler<HTMLSelectElement>;
 };
 
@@ -26,8 +28,10 @@ export default function SelectInput(props: SelectInputProps) {
       <select
         id={props.name.toLowerCase()}
         name={props.name.toLowerCase()}
+        value={props.defaultValue}
         className="block w-full py-2.5 px-2 text-xs sm:text-base rounded border border-[#8A0303] bg-black dark:bg-black dark:border-[#8A0303] dark:focus:border-red-700 focus:bg-black focus:outline-none focus:ring-0 focus:border-red-700 shadow-lg shadow-[#660000]"
         onChange={props.handleFunction}
+        disabled={props.isDisabled}
         required
       >
         {Array.from(props.selectValues).map((value: string, i: number) => (

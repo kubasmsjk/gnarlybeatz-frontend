@@ -12,11 +12,11 @@ type LicensesInfoProps = {
 export default function LicensesInfo(props: LicensesInfoProps) {
   return (
     <div className="p-4">
-      <p className="flex justify-center pb-3 text-xl sm:text-2xl font-semibold">
+      <p className="flex justify-center pb-3 text-xl sm:text-2xl">
         {props.leaseType}
       </p>
       <ul className="flex flex-col items-start justify-start rounded-lg bg-[#8A0303] bg-opacity-20 shadow-lg shadow-[#660000] w-80 sm:w-96 h-fit p-2 sm:p-3">
-        <li className="self-center text-lg sm:text-2xl py-3 sm:py-5">
+        <li className="self-center text-lg sm:text-2xl py-3 sm:py-5 font-medium">
           {props.cost}
         </li>
         <li className="text-base sm:text-xl">
@@ -47,7 +47,7 @@ export default function LicensesInfo(props: LicensesInfoProps) {
         <li className="flex justify-center items-center w-full p-0.5">
           <Link
             href={`/?showLicenseInfoModal=y&leaseType=${props.leaseType}`}
-            className="bg-transparent text-red-700 font-bold py-1 hover:text-white "
+            className="bg-transparent text-red-700 font-bold py-1 hover:text-white"
           >
             More about the license
           </Link>

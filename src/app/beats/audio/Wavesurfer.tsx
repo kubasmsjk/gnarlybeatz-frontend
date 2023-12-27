@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { Icons } from "../../../components/ui/Icons";
-import { useWavesurfers } from "@/app/hooks/useWavesurfers";
+import { useWavesurfers } from "@/app/services/hooks/useWavesurfers";
 
 type WavesurferProps = {
   url: string;

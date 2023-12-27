@@ -1,21 +1,18 @@
 import Link from "next/link";
-import { Icons } from "@/components/ui/Icons";
-import ApiLogin from "@/app/(auth)/user/ApiLogin";
-import SignUpForm from "@/components/forms/SignUpForm";
+import SignUpForm from "@/app/(auth)/sign-up/SignUpForm";
 
-export default function SingUp() {
+export default function SignUp() {
   return (
     <div className="container flex flex-col max-w-full items-center justify-center">
-      <h1 className="flex justify-center py-4 sm:py-4 text-red-700">
-        <Icons.userProfile />
+      <h1 className="flex justify-center pb-7 pt-14 font-XXIIUltimateBlackMetal text-red-700 text-6xl sm:text-7xl">
+        Sign up
       </h1>
       <SignUpForm />
-      <ApiLogin />
-      <p className="p-3 text-center text-sm">
+      <p className="p-3 text-center text-xs sm:text-sm">
         Do you already have an account?{" "}
         <Link
           href={"/sign-in"}
-          className="hover:text-[#8A0303] text-sm underline underline-offset-4"
+          className="hover:text-[#8A0303] underline underline-offset-4"
         >
           Sign in
         </Link>

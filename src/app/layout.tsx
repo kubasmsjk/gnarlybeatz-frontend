@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Logo from "@/components/ui/Logo";
 import Footer from "@/components/ui/Footer";
 import Navigation from "@/components/ui/Navigation";
-import Providers from "@/util/Providers";
+import Providers from "@/providers/Providers";
 import "./globals.css";
 
 export const metadata: Metadata = {

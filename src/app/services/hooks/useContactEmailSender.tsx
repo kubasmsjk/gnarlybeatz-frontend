@@ -36,6 +36,7 @@ export const useContactEmailSender = () => {
 
   if (mutation.isError) {
     toast.error("Unable to send email (Server error)", {
+      toastId: 1,
       icon: <Icons.mailWarning className="h-8 w-8 sm:h-6 sm:w-6" />,
       position: "bottom-right",
       autoClose: 3000,

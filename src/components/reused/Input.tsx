@@ -11,7 +11,7 @@ type InputProps = {
   name: string;
   value: string;
   text: string;
-  isDisabled: boolean;
+  isDisabled?: boolean;
   handleFunction: ChangeEventHandler<HTMLInputElement>;
 };
 

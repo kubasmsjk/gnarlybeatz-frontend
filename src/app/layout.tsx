@@ -40,11 +40,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
         className={`flex flex-col min-h-screen antialiased ${montserrat.className}`}
       >
         <Logo />
-        <div className="container max-w-7xl h-full mx-auto">
-          <Providers>{children}</Providers>
-        </div>
-        <Navigation />
-        <Footer />
+        <Providers>
+          <div className="container max-w-7xl h-full mx-auto">{children}</div>
+          <Navigation />
+          <Footer />
+        </Providers>
         <ToastContainer
           closeButton={false}
           toastStyle={{ borderRadius: "10px" }}

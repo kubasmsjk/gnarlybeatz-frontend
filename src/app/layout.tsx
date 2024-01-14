@@ -37,11 +37,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
     >
       <head />
       <body
-        className={`flex flex-col min-h-screen antialiased ${montserrat.className}`}
+        className={`flex flex-col w-auto h-screen antialiased ${montserrat.className}`}
       >
         <Logo />
         <Providers>
-          <div className="container max-w-7xl h-full mx-auto">{children}</div>
+          <div className="container flex flex-col max-w-7xl h-auto mx-auto">
+            {children}
+          </div>
           <Navigation />
           <Footer />
         </Providers>

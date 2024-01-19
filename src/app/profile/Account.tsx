@@ -3,6 +3,7 @@
 import { Icons } from "@/components/ui/Icons";
 import UserEditForm from "./UserEditForm";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 type AccountProps = {
   username?: string;
@@ -11,6 +12,7 @@ type AccountProps = {
 
 export default function Account(props: AccountProps) {
   const [showEditForm, setShowEditForm] = useState(false);
+  const queryClient = useQueryClient();
 
   return (
     <div className="w-full flex flex-col items-center justify-center pt-0 sm:pt-1 md:pt-3.5 lg:pt-4">
@@ -29,15 +31,16 @@ export default function Account(props: AccountProps) {
         <button
           className={
             "text-red-700 hover:text-white text-xs sm:text-sm md:text-base " +
-            `${showEditForm && "pb-6"}`
+            `${showEditForm && "pb-8"}`
           }
           onClick={() => {
+            queryClient.resetQueries({ queryKey: ["formErrors"], exact: true });
             setShowEditForm(!showEditForm);
           }}
         >
           Edit account
         </button>
-        {showEditForm ? <UserEditForm /> : null}
+        {showEditForm ? <UserEditForm currentEmail={props.email} /> : null}
 
         <button className="text-red-700 hover:text-white text-xs sm:text-sm md:text-base">
           Delete account

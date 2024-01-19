@@ -6,6 +6,7 @@ import { Icons } from "@/components/ui/Icons";
 import Input from "@/components/reused/Input";
 import Link from "next/link";
 import { authenticationUtils } from "@/app/utils/authenticationUtils";
+import { useQueryClient } from "@tanstack/react-query";
 
 const initialFormValues = {
   email: "",
@@ -21,6 +22,7 @@ export default function SignInForm() {
   const { singInMutation, formErrors, addFormErrorValue } =
     useAuthenticationForm();
   const { singInFormSchema } = authenticationUtils();
+  const queryClient = useQueryClient();
 
   const handleChange = ({ target }: any) => {
     setFormValues((prev) => ({
@@ -63,7 +65,7 @@ export default function SignInForm() {
   };
 
   const clearFormErrorsValues = () => {
-    formErrors.clear();
+    queryClient.resetQueries({ queryKey: ["formErrors"], exact: true });
   };
 
   return (

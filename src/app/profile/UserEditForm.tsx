@@ -7,10 +7,12 @@ import Input from "@/components/reused/Input";
 import { authenticationUtils } from "@/app/utils/authenticationUtils";
 import PasswordStrength from "../auth/signup/PasswordStrength";
 import { passwordStrength } from "check-password-strength";
+import { useSession } from "next-auth/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 type UserEditFormProps = {
-  username?: string;
-  email?: string;
+  currentEmail?: string;
 };
 
 const initialFormValues = {
@@ -30,6 +32,9 @@ export default function UserEditForm(props: UserEditFormProps) {
   const { editUserMutation, formErrors, addFormErrorValue } =
     useAuthenticationForm();
   const { editUserFormSchema } = authenticationUtils();
+  const { data: session, update } = useSession();
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   useEffect(() => {
     setPassStrength(passwordStrength(values.newPassword).id);
@@ -49,7 +54,25 @@ export default function UserEditForm(props: UserEditFormProps) {
     e.preventDefault();
     const result = validateForm();
 
-    if (result.success) {
+    if (values.currentPassword === values.newPassword) {
+      addFormErrorValue(
+        "newPassword",
+        "The new password cannot be same as current password."
+      );
+    }
+
+    if (values.email === props.currentEmail) {
+      addFormErrorValue(
+        "email",
+        "The new email cannot be the same as current email."
+      );
+    }
+
+    if (
+      result.success &&
+      values.currentPassword != values.newPassword &&
+      values.email != props.currentEmail
+    ) {
       editUser();
     }
 
@@ -71,23 +94,48 @@ export default function UserEditForm(props: UserEditFormProps) {
   };
 
   const editUser = () => {
-    editUserMutation.mutate({
-      username: values.username,
-      email: values.email,
-      password: values.currentPassword,
-      newPassword: values.newPassword,
-    });
+    editUserMutation.mutate(
+      {
+        username: values.username,
+        currentEmail: props.currentEmail!,
+        newEmail: values.email,
+        currentPassword: values.currentPassword,
+        newPassword: values.newPassword,
+      },
+      {
+        onSuccess: async (data) => {
+          if (data != undefined) {
+            await update({
+              ...session,
+              user: {
+                ...session?.user,
+                name: data?.username,
+                email: data?.email,
+              },
+            }).then((result) => {
+              setFormValues(initialFormState);
+              router.refresh();
+            });
+          }
+        },
+      }
+    );
   };
 
   const clearFormErrorsValues = () => {
-    formErrors.clear();
+    queryClient.resetQueries({ queryKey: ["formErrors"], exact: true });
   };
 
   return (
     <>
       {formErrors.get("account") != "" ? (
-        <span className="flex justify-center w-[15rem] sm:w-[20rem] pb-6 text-xs sm:text-sm text-red-600">
+        <span className="flex justify-center w-[95%] pb-8 text-xs sm:text-sm text-red-600">
           {formErrors.get("account")}
+        </span>
+      ) : null}
+      {formErrors.get("currentEmail") != "" ? (
+        <span className="flex justify-center w-[95%] pb-8 text-xs sm:text-sm text-red-600">
+          {formErrors.get("currentEmail")}
         </span>
       ) : null}
       <form
@@ -163,7 +211,16 @@ export default function UserEditForm(props: UserEditFormProps) {
           </div>
           <button
             type="button"
-            className="absolute inset-y-[5.2rem] right-0 flex py-3 px-2 cursor-pointer"
+            className={
+              "absolute right-0 flex py-3 px-2 cursor-pointer " +
+              `${
+                formErrors.get("password") === "Incorrect password."
+                  ? "inset-y-[6.4rem]"
+                  : formErrors.get("password") != ""
+                  ? "inset-y-[9.4rem] sm:inset-y-[8.4rem]"
+                  : "inset-y-[4.9rem] sm:inset-y-[5.1rem]"
+              }`
+            }
             onClick={() => {
               setShowPassword(!showPassword);
             }}

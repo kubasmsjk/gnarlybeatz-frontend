@@ -7,6 +7,7 @@ import Input from "../../../components/reused/Input";
 import { authenticationUtils } from "@/app/utils/authenticationUtils";
 import { passwordStrength } from "check-password-strength";
 import PasswordStrength from "./PasswordStrength";
+import { useQueryClient } from "@tanstack/react-query";
 
 const initialFormValues = {
   username: "",
@@ -24,6 +25,7 @@ export default function SingUpForm() {
   const { singUpMutation, formErrors, addFormErrorValue } =
     useAuthenticationForm();
   const { singUpFormSchema } = authenticationUtils();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     setPassStrength(passwordStrength(values.password).id);
@@ -72,7 +74,7 @@ export default function SingUpForm() {
   };
 
   const clearFormErrorsValues = () => {
-    formErrors.clear();
+    queryClient.resetQueries({ queryKey: ["formErrors"], exact: true });
   };
 
   return (

@@ -2,17 +2,22 @@
 
 import Link from "next/link";
 import SignInForm from "@/app/auth/signin/SignInForm";
-import { useAuthenticationForm } from "@/app/services/hooks/useAuthenticationForm";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 export default function SignIn() {
-  const { formErrors } = useAuthenticationForm();
   const { data: session, status } = useSession();
+  const queryClient = useQueryClient();
   const router = useRouter();
-  if (session && session.user && status === "authenticated") {
-    router.push("/");
-  }
+
+  useEffect(() => {
+    if (session && session.user && status === "authenticated") {
+      router.push("/");
+    }
+  }, [router, session, status]);
+
   if (!session && status === "unauthenticated") {
     return (
       <div className="container flex flex-col max-w-full items-center justify-center">
@@ -25,7 +30,12 @@ export default function SignIn() {
           <Link
             href={"/auth/signup"}
             className="hover:text-[#8A0303] underline underline-offset-4"
-            onClick={() => formErrors.clear()}
+            onClick={() =>
+              queryClient.resetQueries({
+                queryKey: ["formErrors"],
+                exact: true,
+              })
+            }
           >
             Sign up
           </Link>

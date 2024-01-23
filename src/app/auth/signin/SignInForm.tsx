@@ -69,10 +69,7 @@ export default function SignInForm() {
   };
 
   return (
-    <div
-      className="container flex flex-col max-w-full items-center justify-center"
-      id="contact-section"
-    >
+    <div className="container flex flex-col max-w-full items-center justify-center">
       {formErrors.get("account") != "" ? (
         <span className="flex justify-center w-[15rem] sm:w-[20rem] pb-6 text-xs sm:text-sm text-red-600">
           {formErrors.get("account")}

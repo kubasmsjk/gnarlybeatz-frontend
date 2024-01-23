@@ -1,6 +1,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import Account from "./Account";
+import FavoriteBeats from "./FavoriteBeats";
 
 const Profile = async () => {
   const session = await getServerSession(authOptions);
@@ -18,6 +19,7 @@ const Profile = async () => {
         <h1 className="pb-7 pt-14 font-XXIIUltimateBlackMetal text-red-700 text-4xl sm:text-5xl md:text-7xl">
           Favorite beats
         </h1>
+        <FavoriteBeats />
       </div>
     </div>
   );

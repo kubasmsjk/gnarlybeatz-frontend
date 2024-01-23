@@ -28,10 +28,7 @@ export default function BeatsForm() {
   };
 
   return (
-    <div
-      className="container max-w-full flex flex-col justify-center items-center pb-4 sm:pb-8"
-      id="contact-section"
-    >
+    <div className="container max-w-full flex flex-col justify-center items-center pb-4 sm:pb-8">
       {filterData.isError && <></>}
       {filterData.isSuccess && (
         <div className="container flex flex-col sm:flex-row justify-center items-center">
@@ -81,7 +78,7 @@ export default function BeatsForm() {
               handleFunction={handleChange}
             />
           </div>
-          <div className="flex flex-col relative p-0 sm:p-1 w-[20.6rem] sm:w-[35rem]">
+          <div className="flex flex-col relative p-0 sm:p-1 w-[20.6rem] sm:w-1/2">
             <label
               htmlFor="default-search"
               className="block text-sm sm:text-base text-transparent"

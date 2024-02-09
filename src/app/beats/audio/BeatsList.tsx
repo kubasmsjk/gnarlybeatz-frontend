@@ -13,13 +13,12 @@ export default function BeatsList() {
   const { data: session, status } = useSession();
   const { favoriteBeatErrors } = useFavoriteBeats();
   const pathname = usePathname();
-
   const lastAudioFileDataRef = useRef<HTMLDivElement>(null);
 
   const { audioData, fetchNextPage, isError, isLoading } =
-    useFetchAudioFilesData(pathname, session);
+    useFetchAudioFilesData(pathname, session, status);
 
-  const _audioData = audioData?.pages.flatMap((page) => page.content);
+  const _audioData = audioData?.pages.flatMap((page) => page?.content);
 
   const { ref, entry } = useIntersection({
     root: lastAudioFileDataRef.current,
@@ -63,12 +62,15 @@ export default function BeatsList() {
             return (
               <div
                 className={`container flex justify-center h-[4.1rem] sm:h-[7rem] md:h-[8.85rem] ${
-                  pathname === "/beats" ? "lg:h-[11rem]" : "lg:h-[7rem]"
+                  pathname === "/beats"
+                    ? "lg:h-[11rem]"
+                    : "lg:h-[11rem] xl:h-[7rem]"
                 } p-1.5 lg:p-2.5 animate-fade-up animate-delay-500`}
                 key={index}
                 ref={ref}
               >
                 <AudioPlayer
+                  licenseType={"Standard Lease"}
                   name={element.name}
                   genre={element.genre}
                   mood={element.mood}
@@ -77,17 +79,28 @@ export default function BeatsList() {
                   audioUrl={element.audioBlob}
                   imageUrl={element.imageBlob}
                   pathname={pathname}
+                  productStripeId={element.productStripeId}
+                  standardProductStripePriceId={
+                    element.standardProductStripePriceId
+                  }
+                  deluxeProductStripePriceId={
+                    element.deluxeProductStripePriceId
+                  }
+                  purchased={element.purchased}
                 />
               </div>
             );
           return (
             <div
               className={`container flex justify-center h-[4.1rem] sm:h-[7rem] md:h-[8.85rem] ${
-                pathname === "/beats" ? "lg:h-[11rem]" : "lg:h-[7rem]"
+                pathname === "/beats"
+                  ? "lg:h-[11rem]"
+                  : "lg:h-[11rem] xl:h-[7rem]"
               } p-1.5 lg:p-2.5 animate-fade-up animate-delay-500`}
               key={index}
             >
               <AudioPlayer
+                licenseType={"Standard Lease"}
                 name={element.name}
                 genre={element.genre}
                 mood={element.mood}
@@ -96,6 +109,12 @@ export default function BeatsList() {
                 audioUrl={element.audioBlob}
                 imageUrl={element.imageBlob}
                 pathname={pathname}
+                productStripeId={element.productStripeId}
+                standardProductStripePriceId={
+                  element.standardProductStripePriceId
+                }
+                deluxeProductStripePriceId={element.deluxeProductStripePriceId}
+                purchased={element.purchased}
               />
             </div>
           );

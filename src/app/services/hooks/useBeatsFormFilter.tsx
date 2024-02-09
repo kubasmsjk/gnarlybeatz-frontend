@@ -1,13 +1,22 @@
-import { backendConfig } from "@/config/site";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import axiosNoAuth from "../axios/axios";
+import { Session } from "next-auth/core/types";
 
-export const useBeatsFormFilter = () => {
+export const useBeatsFormFilter = (
+  pathname: string,
+  session: Session | null,
+  status: string
+) => {
   const queryClient = useQueryClient();
+  const path = pathname?.substring(pathname.lastIndexOf("/") + 1);
 
   const fetchFilterData = async () =>
-    await axios
-      .get(backendConfig.url + "/api/audio/filter/values")
+    await axiosNoAuth
+      .get(
+        `/api/audio/filter/values?path=${path}&userId=${
+          Number(session?.user.id) || ""
+        }`
+      )
       .then((response) => {
         addSelectBpmValues(response.data.bpm);
         addSelectKeyValues(response.data.key);
@@ -16,12 +25,17 @@ export const useBeatsFormFilter = () => {
         return response;
       });
 
-  const filterData = useQuery({
+  const {
+    data: filterData,
+    isError,
+    isSuccess,
+  } = useQuery({
     queryKey: ["fetchFilterData"],
     queryFn: async () => {
       const response = await fetchFilterData();
       return response;
     },
+    enabled: status != "loading",
   });
 
   const { data: filterValues = new Map<string, string>() } = useQuery<
@@ -117,7 +131,8 @@ export const useBeatsFormFilter = () => {
     selectKeyValues,
     selectMoodsValues,
     selectGenresValues,
-    filterData,
+    isError,
+    isSuccess,
     addFilterValue,
     addSelectBpmValues,
     addSelectKeyValues,

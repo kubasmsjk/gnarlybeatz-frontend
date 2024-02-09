@@ -1,8 +1,7 @@
 import { Icons } from "@/components/ui/Icons";
-import { backendConfig } from "@/config/site";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { toast } from "react-toastify";
+import useAxiosAuth from "../axios/useAxiosAuth";
 
 type AudioFileData = {
   userId: string;
@@ -16,6 +15,7 @@ type favoriteBeatErrorValues = {
 
 export const useFavoriteBeats = () => {
   const queryClient = useQueryClient();
+  const axiosAuth = useAxiosAuth();
 
   const { data: favoriteBeatErrors = new Map<string, string>() } = useQuery<
     Map<string, string>
@@ -43,10 +43,9 @@ export const useFavoriteBeats = () => {
   const addFavoriteBeatMutation = useMutation({
     mutationKey: ["FavoriteBeats"],
     mutationFn: async (data: AudioFileData) => {
-      await axios
+      await axiosAuth
         .post(
-          backendConfig.url +
-            `/api/audio/favorite-beats/add?id=${data.userId}&name=${data.name}`
+          `/api/audio/favoriteBeats/add?id=${data.userId}&name=${data.name}`
         )
         .then((response) => {
           toast.success(response.data, {
@@ -73,10 +72,9 @@ export const useFavoriteBeats = () => {
   const removeFavoriteBeatMutation = useMutation({
     mutationKey: ["FavoriteBeats"],
     mutationFn: async (data: AudioFileData) => {
-      await axios
+      await axiosAuth
         .post(
-          backendConfig.url +
-            `/api/audio/favorite-beats/remove?id=${data.userId}&name=${data.name}`
+          `/api/audio/favoriteBeats/remove?id=${data.userId}&name=${data.name}`
         )
         .then((response) => {
           toast.success(response.data, {

@@ -10,8 +10,13 @@ export default function Beats() {
 
   useEffect(() => {
     queryClient.removeQueries({ queryKey: ["favoriteBeatErrors"] });
+    queryClient.removeQueries({ queryKey: ["fetchFilterData"] });
     queryClient.removeQueries({ queryKey: ["beatFormFilterValues"] });
     queryClient.removeQueries({ queryKey: ["audioData"] });
+    queryClient.setQueryData(["selectBpmValues"], () => new Set(["-"]));
+    queryClient.setQueryData(["selectKeyValues"], () => new Set(["-"]));
+    queryClient.setQueryData(["selectMoodsValues"], () => new Set(["-"]));
+    queryClient.setQueryData(["selectGenresValues"], () => new Set(["-"]));
   }, []);
 
   return (

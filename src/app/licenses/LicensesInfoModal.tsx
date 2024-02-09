@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { Icons } from "../../components/ui/Icons";
 
 export default function LicensesInfoModal() {
   const router = useRouter();
+  const path = usePathname();
   const searchParams = useSearchParams();
   const modalRef = useRef<null | HTMLDialogElement>(null);
   const showModal = searchParams.get("showLicenseInfoModal");
@@ -22,11 +23,15 @@ export default function LicensesInfoModal() {
 
     document.onkeydown = function (e) {
       if (e.key === "Escape") {
-        router.replace("/#licenses-section");
+        if (path === "/") {
+          router.replace("/#licenses-section");
+        } else {
+          router.replace("/cart");
+        }
         document.body.classList.remove("overflow-y-hidden");
       }
     };
-  }, [router, showModal]);
+  }, [path, router, showModal]);
 
   const closeModal = () => {
     modalRef.current?.close();
@@ -45,7 +50,7 @@ export default function LicensesInfoModal() {
               License agreement draft
             </h1>
             <Link
-              href="/#licenses-section"
+              href={path === "/" ? "/#licenses-section" : "/cart"}
               className="h-[25px] sm:h-[35px]"
               onClick={closeModal}
             >

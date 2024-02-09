@@ -1,5 +1,4 @@
-import { ChangeEventHandler } from "react";
-import { Icons } from "../ui/Icons";
+import { ChangeEventHandler, LegacyRef } from "react";
 
 type InputProps = {
   width: string;
@@ -9,10 +8,11 @@ type InputProps = {
   type: string;
   id: string;
   name: string;
-  value: string;
+  value?: string;
   text: string;
   isDisabled?: boolean;
   handleFunction: ChangeEventHandler<HTMLInputElement>;
+  reference?: LegacyRef<HTMLInputElement>;
 };
 
 export default function Input(props: InputProps) {
@@ -21,15 +21,27 @@ export default function Input(props: InputProps) {
       className={`relative w-[${props.width}] sm:w-[${props.widthSm}] pb-${props.paddingB} sm:pb-${props.paddingBSm}`}
     >
       <input
+        ref={props.reference}
         type={props.type}
         id={props.id}
         name={props.name}
         value={props.value}
-        className="block w-full py-3 px-2 text-base bg-transparent rounded border border-[#8A0303] bg-[#080808] dark:bg-[#080808] appearance-none dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer shadow-lg shadow-[#660000]"
+        className={`block w-full ${
+          props.type === "file" ? `p-0.5` : `py-3 px-2 `
+        } text-base bg-transparent rounded border border-[#8A0303] bg-[#080808] dark:bg-[#080808] appearance-none dark:border-[#8A0303] dark:focus:border-red-700 focus:outline-none focus:ring-0 focus:border-red-700 peer shadow-lg shadow-[#660000]`}
         placeholder=" "
         onChange={props.handleFunction}
         disabled={props.isDisabled}
-        required
+        accept={
+          props.name === "mp3AudioFile"
+            ? ".mp3"
+            : props.name === "wavAudioFile"
+            ? ".wav"
+            : props.name === "image"
+            ? ".png"
+            : ""
+        }
+        required={props.name != "image" ? true : false}
       />
       <label
         htmlFor={props.name}

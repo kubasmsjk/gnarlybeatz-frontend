@@ -8,6 +8,7 @@ import { useWavesurfers } from "@/app/services/hooks/useWavesurfers";
 type WavesurferProps = {
   url: string;
   pathname: string;
+  volume: number;
 };
 
 export default function Wavesurfer(props: WavesurferProps) {
@@ -44,6 +45,7 @@ export default function Wavesurfer(props: WavesurferProps) {
       normalize: true,
       url: props.url,
     });
+    wavesurfer.setVolume(props.volume);
     addWavesurfer(wavesurfer);
     wavesurferAudioRef.current = wavesurfer;
     const duration = durationEl.current;
@@ -67,6 +69,14 @@ export default function Wavesurfer(props: WavesurferProps) {
     });
   }, []);
 
+  useEffect(() => {
+    wavesurfers.map((audio) => {
+      if (audio === wavesurferAudioRef.current) {
+        wavesurferAudioRef.current.setVolume(props.volume);
+      }
+    });
+  }, [props.volume]);
+
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secondsRemainder = Math.round(seconds) % 60;
@@ -78,12 +88,16 @@ export default function Wavesurfer(props: WavesurferProps) {
     <div className="container h-full flex flex-row pb-1 sm:pb-3 items-end">
       <div
         className={`flex justify-end items-center h-[20px] sm:h-[40px] md:h-[65px] ${
-          props.pathname === "/beats" ? "lg:h-[80px]" : "lg:h-[40px]"
+          props.pathname === "/beats"
+            ? "lg:h-[80px]"
+            : "lg:h-[80px] xl:h-[40px]"
         }`}
       >
         <button
           className={`h-[20px] sm:h-[30px] md:h-[44px] ${
-            props.pathname === "/beats" ? "lg:h-[50px]" : "lg:h-[30px]"
+            props.pathname === "/beats"
+              ? "lg:h-[50px]"
+              : "lg:h-[50px] xl:h-[30px]"
           } pr-1`}
           onClick={() => {
             wavesurfers.map((audio) => {
@@ -100,7 +114,9 @@ export default function Wavesurfer(props: WavesurferProps) {
       </div>
       <div
         className={`container h-[20px] sm:h-[40px] md:h-[65px] ${
-          props.pathname === "/beats" ? "lg:h-[80px]" : "lg:h-[40px]"
+          props.pathname === "/beats"
+            ? "lg:h-[80px]"
+            : "lg:h-[80px] xl:h-[40px]"
         } relative cursor-pointer`}
         ref={wavesurferRef}
       >

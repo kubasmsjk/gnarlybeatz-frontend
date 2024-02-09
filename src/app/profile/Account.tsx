@@ -4,14 +4,20 @@ import { Icons } from "@/components/ui/Icons";
 import UserEditForm from "./UserEditForm";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import UploadOrUpdateBeatForm from "../admin/UploadOrUpdateBeatForm";
+import ArchiveBeatForm from "../admin/ArchiveBeatForm";
 
 type AccountProps = {
   username?: string;
   email?: string;
+  role?: string;
 };
 
 export default function Account(props: AccountProps) {
   const [showEditForm, setShowEditForm] = useState(false);
+  const [showUploadOrUpdateBeatForm, setShowUploadOrUpdateBeatForm] =
+    useState(false);
+  const [showArchiveBeatForm, setShowArchiveBeatForm] = useState(false);
   const queryClient = useQueryClient();
 
   return (
@@ -28,6 +34,44 @@ export default function Account(props: AccountProps) {
         </div>
       </div>
       <div className="flex flex-col items-start justify-start w-[95%] p-2">
+        {props.role === "ADMIN" ? (
+          <>
+            <button
+              className={
+                "text-red-700 hover:text-white text-xs sm:text-sm md:text-base " +
+                `${showUploadOrUpdateBeatForm && "pb-8"}`
+              }
+              onClick={() => {
+                queryClient.resetQueries({
+                  queryKey: ["formErrors"],
+                  exact: true,
+                });
+                setShowUploadOrUpdateBeatForm(!showUploadOrUpdateBeatForm);
+              }}
+            >
+              Upload or Update beat
+            </button>
+            {showUploadOrUpdateBeatForm ? <UploadOrUpdateBeatForm /> : null}
+
+            <button
+              className={
+                "text-red-700 hover:text-white text-xs sm:text-sm md:text-base " +
+                `${showArchiveBeatForm && "pb-8"}`
+              }
+              onClick={() => {
+                queryClient.resetQueries({
+                  queryKey: ["formErrors"],
+                  exact: true,
+                });
+                setShowArchiveBeatForm(!showArchiveBeatForm);
+              }}
+            >
+              Archive beat
+            </button>
+            {showArchiveBeatForm ? <ArchiveBeatForm /> : null}
+          </>
+        ) : null}
+
         <button
           className={
             "text-red-700 hover:text-white text-xs sm:text-sm md:text-base " +
@@ -41,10 +85,6 @@ export default function Account(props: AccountProps) {
           Edit account
         </button>
         {showEditForm ? <UserEditForm currentEmail={props.email} /> : null}
-
-        <button className="text-red-700 hover:text-white text-xs sm:text-sm md:text-base">
-          Delete account
-        </button>
       </div>
     </div>
   );

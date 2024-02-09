@@ -1,40 +1,88 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { Icons } from "@/components/ui/Icons";
-import { backendConfig } from "@/config/site";
+import axiosNoAuth from "../axios/axios";
 
 type formValues = {
-  email: string;
+  sender: string;
   subject: string;
-  message: string;
+  msgBody: string;
 };
 
 export const useContactEmailSender = () => {
-  const mutation = useMutation({
+  const queryClient = useQueryClient();
+  const { data: emailFormErrors = new Map<string, string>() } = useQuery<
+    Map<string, string>
+  >({
+    queryKey: ["emailFormErrors"],
+    initialData: new Map<string, string>([
+      ["subject", ""],
+      ["msgBody", ""],
+      ["sender", ""],
+    ]),
+  });
+
+  const addEmailFormErrorValue = (key: string, value: string) => {
+    if (value !== undefined) {
+      queryClient.setQueryData(
+        ["emailFormErrors"],
+        (prevValues: Map<string, string> | undefined) => {
+          const updatedValues = prevValues ? new Map(prevValues) : new Map();
+          updatedValues.set(key, value);
+          return updatedValues;
+        }
+      );
+    }
+  };
+
+  const sendEmail = useMutation({
     mutationKey: ["sendEmail"],
     mutationFn: async (formData: formValues) => {
-      await axios.post(`${backendConfig.url}/sendMail`, {
-        sender: formData.email,
-        msgBody: formData.message,
-        subject: formData.subject,
-      });
-      toast.success("Email sent", {
-        icon: <Icons.mailSucess className="h-8 w-8 sm:h-6 sm:w-6" />,
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-        style: { backgroundColor: "#1B7A43" },
-      });
+      await axiosNoAuth
+        .post("/api/email/send", {
+          sender: formData.sender,
+          msgBody: formData.msgBody,
+          subject: formData.subject,
+        })
+        .then((response) => {
+          toast.success(response.data, {
+            icon: <Icons.mailSucess className="h-8 w-8 sm:h-6 sm:w-6" />,
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: "colored",
+            style: { backgroundColor: "#1B7A43" },
+          });
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            var result: formValues = error.response.data;
+            addEmailFormErrorValue("sender", result.sender);
+            addEmailFormErrorValue("subject", result.subject);
+            addEmailFormErrorValue("msgBody", result.msgBody);
+          }
+          toast.error(error.data, {
+            toastId: 1,
+            icon: <Icons.mailWarning className="h-8 w-8 sm:h-6 sm:w-6" />,
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: "colored",
+            style: { backgroundColor: "#8A0303" },
+          });
+        });
     },
   });
 
-  if (mutation.isError) {
+  if (sendEmail.isError) {
     toast.error("Unable to send email (Server error)", {
       toastId: 1,
       icon: <Icons.mailWarning className="h-8 w-8 sm:h-6 sm:w-6" />,
@@ -50,5 +98,5 @@ export const useContactEmailSender = () => {
     });
   }
 
-  return { mutation };
+  return { sendEmail, emailFormErrors, addEmailFormErrorValue };
 };

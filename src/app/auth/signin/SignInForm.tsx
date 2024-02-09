@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useAuthenticationForm } from "@/app/services/hooks/useAuthenticationForm";
 import { Icons } from "@/components/ui/Icons";
 import Input from "@/components/reused/Input";
-import Link from "next/link";
 import { authenticationUtils } from "@/app/utils/authenticationUtils";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -125,11 +124,6 @@ export default function SignInForm() {
             {formErrors.get("password")}
           </span>
         ) : null}
-        <p className="w-[15rem] sm:w-[20rem] text-right text-xs sm:text-sm">
-          <Link href={"/reset-password"} className="hover:text-[#8A0303]">
-            Forgot password?
-          </Link>
-        </p>
         <div className="flex items-center justify-center p-3">
           {singInMutation.isPending ? (
             <div role="status">

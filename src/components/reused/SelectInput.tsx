@@ -8,10 +8,18 @@ type SelectInputProps = {
   paddingB: string;
   paddingBSm: string;
   name: string;
-  selectValues: Set<string>;
+  selectValues: Set<string> | Map<string, AudioFileUpdateData>;
   defaultValue?: string;
   isDisabled?: boolean;
   handleFunction: ChangeEventHandler<HTMLSelectElement>;
+};
+
+type AudioFileUpdateData = {
+  name: string;
+  genre: string;
+  mood: string;
+  bpm: string;
+  key: string;
 };
 
 export default function SelectInput(props: SelectInputProps) {
@@ -34,11 +42,17 @@ export default function SelectInput(props: SelectInputProps) {
         disabled={props.isDisabled}
         required
       >
-        {Array.from(props.selectValues).map((value: string, i: number) => (
-          <option key={i} value={value}>
-            {value}
-          </option>
-        ))}
+        {props.selectValues instanceof Set
+          ? Array.from(props.selectValues).map((value, i) => (
+              <option key={i} value={value}>
+                {value}
+              </option>
+            ))
+          : Array.from(props.selectValues.entries()).map(([key, value], i) => (
+              <option key={i} value={key}>
+                {value.name}
+              </option>
+            ))}
       </select>
     </div>
   );

@@ -41,7 +41,7 @@ export const authenticationUtils = () => {
       }, "Wrong id"),
     username: singUpFormSchema.shape.username,
     email: singUpFormSchema.shape.email,
-    access_token: z
+    accessToken: z
       .string()
       .trim()
       .refine((data) => {
@@ -49,7 +49,7 @@ export const authenticationUtils = () => {
           data
         );
       }, "Wrong token."),
-    refresh_token: z
+    refreshToken: z
       .string()
       .trim()
       .refine((data) => {

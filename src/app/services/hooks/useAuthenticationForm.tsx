@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { Icons } from "@/components/ui/Icons";
-import { backendConfig } from "@/config/site";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import useAxiosAuth from "../axios/useAxiosAuth";
+import axiosNoAuth from "../axios/axios";
 
 type singInFormValues = {
   account?: string;
@@ -37,14 +37,17 @@ type authenticateResponse = {
     id: string;
     username: string;
     email: string;
-    access_token: string;
-    refresh_token: string;
+    role: string;
+    accessToken: string;
+    refreshToken: string;
   };
 };
 
 export const useAuthenticationForm = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const axiosAuth = useAxiosAuth();
+
   const { data: formErrors = new Map<string, string>() } = useQuery<
     Map<string, string>
   >({
@@ -75,8 +78,8 @@ export const useAuthenticationForm = () => {
   const singInMutation = useMutation({
     mutationKey: ["singin"],
     mutationFn: async (formData: singInFormValues) => {
-      await axios
-        .post(`${backendConfig.url}/api/auth/authenticate`, {
+      await axiosNoAuth
+        .post("/api/auth/authenticate", {
           email: formData.email,
           password: formData.password,
         })
@@ -87,8 +90,9 @@ export const useAuthenticationForm = () => {
             id: result.data.id,
             username: result.data.username,
             email: result.data.email,
-            access_token: result.data.access_token,
-            refresh_token: result.data.refresh_token,
+            role: result.data.role,
+            accessToken: result.data.accessToken,
+            refreshToken: result.data.refreshToken,
           });
           router.push("/");
         })
@@ -104,8 +108,8 @@ export const useAuthenticationForm = () => {
   const singUpMutation = useMutation({
     mutationKey: ["singup"],
     mutationFn: async (formData: singUpFormValues) => {
-      await axios
-        .post(`${backendConfig.url}/api/auth/register`, {
+      await axiosNoAuth
+        .post("/api/auth/register", {
           username: formData.username,
           email: formData.email,
           password: formData.password,
@@ -117,8 +121,9 @@ export const useAuthenticationForm = () => {
             id: result.data.id,
             username: result.data.username,
             email: result.data.email,
-            access_token: result.data.access_token,
-            refresh_token: result.data.refresh_token,
+            role: result.data.role,
+            accessToken: result.data.accessToken,
+            refreshToken: result.data.refreshToken,
           });
           router.push("/");
         })
@@ -134,8 +139,8 @@ export const useAuthenticationForm = () => {
   const editUserMutation = useMutation({
     mutationKey: ["editUser"],
     mutationFn: async (formData: editUserFormValues) => {
-      const response = await axios
-        .post(`${backendConfig.url}/api/user/edit`, {
+      const response = await axiosAuth
+        .post("/api/user/edit", {
           username: formData.username,
           currentEmail: formData.currentEmail,
           newEmail: formData.newEmail,

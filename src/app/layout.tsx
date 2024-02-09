@@ -1,19 +1,17 @@
-import type { Metadata } from "next";
-import { siteConfig } from "@/config/site";
 import { Montserrat } from "next/font/google";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import type { Metadata } from "next";
 import Logo from "@/components/ui/Logo";
 import Footer from "@/components/ui/Footer";
 import Navigation from "@/components/ui/Navigation";
 import Providers from "@/providers/Providers";
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  //metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
   title: {
-    default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`,
+    default: process.env.NEXT_PUBLIC_NAME!,
+    template: `%s | ${process.env.NEXT_PUBLIC_NAME}`,
   },
   icons: {
     icon: "/favicon.ico",

@@ -4,16 +4,22 @@ import { useQueryClient } from "@tanstack/react-query";
 import SelectInput from "../../../components/reused/SelectInput";
 import { Icons } from "../../../components/ui/Icons";
 import { useBeatsFormFilter } from "@/app/services/hooks/useBeatsFormFilter";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function BeatsForm() {
+  const pathname = usePathname();
+  const { data: session, status } = useSession();
+
   const {
     selectBpmValues,
     selectKeyValues,
     selectMoodsValues,
     selectGenresValues,
-    filterData,
+    isError,
+    isSuccess,
     addFilterValue,
-  } = useBeatsFormFilter();
+  } = useBeatsFormFilter(pathname, session, status);
   const queryClient = useQueryClient();
 
   const handleChange = ({ target }: any) => {
@@ -29,8 +35,8 @@ export default function BeatsForm() {
 
   return (
     <div className="container max-w-full flex flex-col justify-center items-center pb-4 sm:pb-8">
-      {filterData.isError && <></>}
-      {filterData.isSuccess && (
+      {isError && <></>}
+      {isSuccess && (
         <div className="container flex flex-col sm:flex-row justify-center items-center">
           <div className="flex flex-row justify-center items-center ">
             <SelectInput
